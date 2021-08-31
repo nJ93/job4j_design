@@ -31,12 +31,8 @@ public class MatrixIt implements Iterator<Integer> {
       throw new NoSuchElementException();
     }
     if (data[row].length == 0) {
-      if (data[row].length == column) {
         row++;
         return next();
-      }
-      column++;
-      return next();
     } else {
       if (data[row].length - 1 == column) {
         int value = data[row++][column];
