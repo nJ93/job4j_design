@@ -13,10 +13,11 @@ public class SimpleLinkedList<E> implements List<E> {
     Node<E> newNode = new Node<>(last, value, null);
     Node<E> prevLast = last;
     last = newNode;
-    if (prevLast == null)
+    if (prevLast == null) {
       first = newNode;
-    else
+    } else {
       prevLast.next = newNode;
+    }
     size++;
     modCount++;
   }
