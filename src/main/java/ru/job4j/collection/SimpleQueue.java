@@ -7,7 +7,7 @@ public class SimpleQueue<T> {
   private int outSize;
 
   public T poll() {
-    if (outSize == 0 && inSize > 0) {
+    if (outSize == 0) {
       while (inSize > 0) {
         out.push(in.pop());
         outSize++;
