@@ -5,20 +5,6 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class SimpleMap<K, V> implements Map<K, V> {
-  public static void main(String[] args) {
-//    SimpleMap<Integer, String> simpleMap = new SimpleMap();
-//    simpleMap.put(1, "asda");
-//    String s = simpleMap.get(0);
-//    System.out.println(s);
-//    java.util.Map<Integer, String> asd = new HashMap<>();
-//    asd.put(1, "fdsf");
-//    String sd = asd.get(0);
-//    System.out.println(sd);
-//    float a = 1.0F;
-    int a = 1;
-    int b = 2;
-    System.out.println((float) a / b);
-  }
 
   private static final float LOAD_FACTOR = 0.75f;
 
@@ -59,7 +45,9 @@ public class SimpleMap<K, V> implements Map<K, V> {
     capacity = capacity << 1;
     table = new MapEntry[capacity];
     for (MapEntry<K, V> mapEntry : oldTable) {
-      table[indexFor(hash(mapEntry.key.hashCode()))] = mapEntry;
+      if (mapEntry != null) {
+        table[indexFor(hash(mapEntry.key.hashCode()))] = mapEntry;
+      }
     }
   }
 
