@@ -18,18 +18,17 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
   @Override
   public boolean put(K key, V value) {
-    if ((float) count / capacity >= LOAD_FACTOR) {
+    if (count >= capacity * LOAD_FACTOR) {
       expand();
     }
     int index = indexFor(hash(key.hashCode()));
-    if (table[index] != null) {
-      return false;
-    } else {
+    if (table[index] == null) {
       table[index] = new MapEntry<>(key, value);
       count++;
       modCount++;
       return true;
     }
+    return false;
   }
 
   private int hash(int hashCode) {
@@ -42,7 +41,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
   private void expand() {
     MapEntry<K, V>[] oldTable = table;
-    capacity = capacity << 1;
+    capacity *= 2;
     table = new MapEntry[capacity];
     for (MapEntry<K, V> mapEntry : oldTable) {
       if (mapEntry != null) {
@@ -80,6 +79,9 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
       @Override
       public boolean hasNext() {
+        if (expectedModCount != modCount) {
+          throw new ConcurrentModificationException();
+        }
         for (int i = index; i < table.length; i++) {
           if (table[i] != null) {
             index = i;
@@ -93,9 +95,6 @@ public class SimpleMap<K, V> implements Map<K, V> {
       public K next() {
         if (!hasNext()) {
           throw new NoSuchElementException();
-        }
-        if (expectedModCount != modCount) {
-          throw new ConcurrentModificationException();
         }
         return table[index].key;
       }
