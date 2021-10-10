@@ -22,13 +22,13 @@ public class SimpleMap<K, V> implements Map<K, V> {
       expand();
     }
     int index = indexFor(hash(key.hashCode()));
-    if (table[index] == null) {
-      table[index] = new MapEntry<>(key, value);
-      count++;
-      modCount++;
-      return true;
+    if (table[index] != null) {
+      return false;
     }
-    return false;
+    table[index] = new MapEntry<>(key, value);
+    count++;
+    modCount++;
+    return true;
   }
 
   private int hash(int hashCode) {
