@@ -40,13 +40,21 @@ public class Info {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
 
     Info info = (Info) o;
 
-    if (added != info.added) return false;
-    if (changed != info.changed) return false;
+    if (added != info.added) {
+      return false;
+    }
+    if (changed != info.changed) {
+      return false;
+    }
     return deleted == info.deleted;
   }
 

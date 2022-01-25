@@ -8,11 +8,11 @@ public class Analize {
 
   public static Info diff(Set<User> previous, Set<User> current) {
 
-    for (User user : current) {
-      if (!previous.contains(user)) {
-//        previous.
-      }
-    }
+//    for (User user : current) {
+//      if (!previous.contains(user)) {
+////        previous.
+//      }
+//    }
     return new Info(0, 0, 0);
   }
 
