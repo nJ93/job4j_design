@@ -12,8 +12,8 @@ public class ResultFile {
         }
         out.write(System.lineSeparator().getBytes());
       }
-    } catch (IOException e) {
-      e.printStackTrace();
+    } catch (IOException exception) {
+      exception.printStackTrace();
     }
   }
 }
