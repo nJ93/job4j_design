@@ -1,6 +1,7 @@
 package ru.job4j.io;
 
 import org.hamcrest.Matchers;
+import org.junit.Ignore;
 import org.junit.Test;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -29,6 +30,27 @@ public class ConfigTest {
   @Test(expected = IllegalArgumentException.class)
   public void whenWrongStructure() {
     String path = "./data/third.properties";
+    Config config = new Config(path);
+    config.load();
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void whenEmptyValue() {
+    String path = "./data/fourth.properties";
+    Config config = new Config(path);
+    config.load();
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void whenMissingDelimiter() {
+    String path = "./data/fifth.properties";
+    Config config = new Config(path);
+    config.load();
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void whenMoreThanOneDelimiter() {
+    String path = "./data/sixth.properties";
     Config config = new Config(path);
     config.load();
   }

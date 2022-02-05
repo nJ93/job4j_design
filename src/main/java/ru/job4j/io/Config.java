@@ -21,10 +21,16 @@ public class Config {
     try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
       values = reader
               .lines()
-              .filter(line -> line.contains("=") && !line.trim().startsWith("#"))
+              .filter(line -> line.length() > 0 && !line.trim().startsWith("#"))
               .peek(line -> {
-                if ("".equals(line.substring(0, line.indexOf("=")))) {
-                    throw new IllegalArgumentException();
+                if (
+                        !line.contains("=")
+                                || line.length() - line.replace("=", "").length() > 1
+                                || line.length() <= 1
+                                || "".equals(line.substring(0, line.indexOf("=")))
+                                || "".equals(line.substring(line.indexOf("=") + 1))
+                ) {
+                  throw new IllegalArgumentException();
                 }
               })
               .collect(Collectors.toMap(
