@@ -1,17 +1,13 @@
 package ru.job4j.io;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class Analizy {
   public void unavailable(String source, String target) throws IOException {
-    try (BufferedReader reader = new BufferedReader(new FileReader(source))) {
-      List<String> lines = reader.lines().collect(Collectors.toList());
-      List<String> periodList = new ArrayList<>();
+    try (BufferedReader reader = new BufferedReader(new FileReader(source));
+         PrintWriter writer = new PrintWriter(new BufferedOutputStream(new FileOutputStream(target)))) {
       StringBuilder period = new StringBuilder();
-      for (String line : lines) {
+      reader.lines().forEach(line -> {
         String[] splitedLine = line.split(" ");
         String code = splitedLine[0];
         String time = splitedLine[1];
@@ -21,19 +17,12 @@ public class Analizy {
           }
         } else {
           if (!period.isEmpty()) {
-            period.append(time).append(";");
-            periodList.add(period.toString());
+            period.append(time).append(";").append(System.lineSeparator());
+            writer.write(period.toString());
             period.setLength(0);
           }
         }
-      }
-      if (!periodList.isEmpty()) {
-        try (PrintWriter writer = new PrintWriter(new BufferedOutputStream(new FileOutputStream(target)))) {
-          for (String line : periodList) {
-            writer.write(line + System.lineSeparator());
-          }
-        }
-      }
+      });
     }
   }
 
