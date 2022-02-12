@@ -10,25 +10,27 @@ import java.util.function.Predicate;
 
 public class Search {
   public static void main(String[] args) throws IOException {
-    if (args.length == 0) {
-      throw new IllegalArgumentException("Empty input arguments");
+    if (validateInputArguments(args)) {
+      File file = new File(args[0]);
+      search(file.toPath(), p -> p.toFile().getName().endsWith(args[1])).forEach(System.out::println);
     }
-    String dirArgument = args[0];
-    String extensionArgument = args[1];
-    if (dirArgument == null || extensionArgument == null) {
-      throw new IllegalArgumentException("Missing one of argument. Need to check input settings.");
-    }
-    File file = new File(dirArgument);
-    if (!file.isDirectory()) {
-      throw new IllegalArgumentException("First argument is not a directory");
-    }
-
-    search(file.toPath(), p -> p.toFile().getName().endsWith(extensionArgument)).forEach(System.out::println);
   }
 
   public static List<Path> search(Path root, Predicate<Path> condition) throws IOException {
     SearchFiles searcher = new SearchFiles(condition);
     Files.walkFileTree(root, searcher);
     return searcher.getPaths();
+  }
+
+
+  private static boolean validateInputArguments(String[] args) {
+    if (args.length < 2) {
+      throw new IllegalArgumentException("Empty or missing input arguments");
+    }
+    File file = new File(args[0]);
+    if (!file.isDirectory()) {
+      throw new IllegalArgumentException("First argument is not a directory");
+    }
+    return true;
   }
 }
