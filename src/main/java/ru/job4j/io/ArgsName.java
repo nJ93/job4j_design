@@ -10,7 +10,11 @@ public class ArgsName {
   private final Map<String, String> values = new HashMap<>();
 
   public String get(String key) {
-    return values.get(key);
+    String s = values.get(key);
+    if (s == null) {
+      throw new IllegalArgumentException("Key is not exist");
+    }
+    return s;
   }
 
   private void parse(String[] args) {
@@ -19,13 +23,16 @@ public class ArgsName {
     }
 
     values.putAll(Arrays.stream(args)
-            .map(str -> str.substring(1).split("="))
-            .peek(array -> {
-              if (array.length <= 1 || array[0] == null || array[1] == null || "".equals(array[0]) || "".equals(array[1])) {
-                throw new IllegalArgumentException("Wrong argument");
-              }
-            })
-            .collect(Collectors.toMap(k -> k[0], v -> v[1])));
+            .filter(this::validateString)
+            .collect(Collectors.toMap(k -> k.substring(1, k.indexOf("=")), v -> v.substring(v.indexOf("=") + 1))));
+  }
+
+  private boolean validateString(String str) {
+    boolean match = str.matches("-[^\\s]+=[^\\s]+");
+    if (!match) {
+      throw new IllegalArgumentException("Wrong argument " + str);
+    }
+    return true;
   }
 
   public static ArgsName of(String[] args) {
