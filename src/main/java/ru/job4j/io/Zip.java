@@ -25,10 +25,13 @@ public class Zip {
 
   private void validateInputArguments(ArgsName args) {
     File source = new File(args.get("d"));
-    args.get("e");
+    String extensionToExclude = args.get("e");
     args.get("o");
     if (!source.isDirectory()) {
       throw new IllegalArgumentException(source + " is not a directory");
+    }
+    if (!extensionToExclude.startsWith(".")) {
+      throw new IllegalArgumentException("Extension " + extensionToExclude + " is not valid");
     }
   }
 
