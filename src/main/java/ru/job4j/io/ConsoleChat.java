@@ -19,11 +19,12 @@ public class ConsoleChat {
   }
 
   public void run() {
-    String userPhrase;
+
     boolean isStopped = false;
     List<String> logPhrases = new ArrayList<>();
     try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
-      while (!OUT.equals(userPhrase = reader.readLine())) {
+      String userPhrase = reader.readLine();
+      while (!OUT.equals(userPhrase)) {
         if (STOP.equals(userPhrase) && !isStopped) {
           logPhrases.add(STOP);
           isStopped = true;
@@ -44,6 +45,7 @@ public class ConsoleChat {
             System.out.println("У бота отсутствуют фразы");
           }
         }
+        userPhrase = reader.readLine();
       }
       saveLog(logPhrases);
     } catch (IOException e) {
