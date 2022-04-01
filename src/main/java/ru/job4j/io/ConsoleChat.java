@@ -22,21 +22,23 @@ public class ConsoleChat {
 
     boolean isStopped = false;
     List<String> logPhrases = new ArrayList<>();
+    List<String> botPhrases = readPhrases();
     try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
       String userPhrase = reader.readLine();
       while (!OUT.equals(userPhrase)) {
         if (STOP.equals(userPhrase) && !isStopped) {
           logPhrases.add(STOP);
           isStopped = true;
+          userPhrase = reader.readLine();
           continue;
         } else if (CONTINUE.equals(userPhrase) && isStopped) {
           logPhrases.add(CONTINUE);
           isStopped = false;
+          userPhrase = reader.readLine();
           continue;
         }
         logPhrases.add(userPhrase);
         if (!isStopped) {
-          List<String> botPhrases = readPhrases();
           if (botPhrases.size() != 0) {
             String botPhrase = botPhrases.get(new Random().nextInt(botPhrases.size()));
             logPhrases.add(botPhrase);
