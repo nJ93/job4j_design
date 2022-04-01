@@ -32,10 +32,7 @@ public class ConsoleChat {
           userPhrase = reader.readLine();
           continue;
         } else if (CONTINUE.equals(userPhrase) && isStopped) {
-          logPhrases.add(CONTINUE);
           isStopped = false;
-          userPhrase = reader.readLine();
-          continue;
         }
         logPhrases.add(userPhrase);
         if (!isStopped) {
