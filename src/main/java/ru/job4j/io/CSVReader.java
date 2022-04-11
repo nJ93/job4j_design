@@ -23,9 +23,10 @@ public class CSVReader {
     if (scanner.hasNextLine()) {
       String[] columns = scanner.nextLine().split(delimiter);
       for (int i = 0; i < columns.length; i++) {
-        if (filterValues.contains(columns[i])) {
+        String columnName = columns[i];
+        if (filterValues.contains(columnName)) {
           columnIndexes.add(i);
-          filterJoiner.add(filterValues.get(i));
+          filterJoiner.add(columnName);
         }
       }
     }
