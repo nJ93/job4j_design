@@ -43,6 +43,10 @@ public class CSVReader {
       output.merge(lineJoiner);
     }
 
+    writeOutput(out, output);
+  }
+
+  private static void writeOutput(String out, StringJoiner output) {
     if ("stdout".equals(out)) {
       System.out.println(output);
     } else {
