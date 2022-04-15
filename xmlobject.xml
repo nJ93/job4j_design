@@ -1,0 +1,9 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+<student name="Ivan" age="21" graduated="false">
+    <info weight="80" height="180"/>
+    <courses>
+        <course>Math</course>
+        <course>English</course>
+        <course>Physics</course>
+    </courses>
+</student>
