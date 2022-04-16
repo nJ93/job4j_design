@@ -2,6 +2,7 @@ package ru.job4j.serialization.json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.json.JSONObject;
 
 import java.util.Arrays;
 
@@ -18,6 +19,26 @@ public class SimpleJsonObject {
     this.isStudent = isStudent;
     this.courses = courses;
     this.simpleJsonSecondObject = simpleJsonSecondObject;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public int getClassroom() {
+    return classroom;
+  }
+
+  public boolean isStudent() {
+    return isStudent;
+  }
+
+  public String[] getCourses() {
+    return courses;
+  }
+
+  public SimpleJsonSecondObject getSimpleJsonSecondObject() {
+    return simpleJsonSecondObject;
   }
 
   @Override
@@ -48,5 +69,14 @@ public class SimpleJsonObject {
                 "}";
     SimpleJsonObject simpleJsonObjectFromJson = gson.fromJson(simpleJson, SimpleJsonObject.class);
     System.out.println(simpleJsonObjectFromJson);
+
+    JSONObject jsonObject = new JSONObject();
+    jsonObject.put("name", simpleJsonObject.getName());
+    jsonObject.put("classroom", simpleJsonObject.getClassroom());
+    jsonObject.put("student", simpleJsonObject.isStudent());
+    jsonObject.put("courses", simpleJsonObject.getCourses());
+    jsonObject.put("simpleJsonSecondObject", simpleJsonObject.getSimpleJsonSecondObject());
+
+    System.out.println(jsonObject);
   }
 }
