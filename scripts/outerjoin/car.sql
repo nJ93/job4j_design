@@ -17,8 +17,8 @@ CREATE TABLE car (
 	id SERIAL PRIMARY KEY,
 	name text,
 	body_id int references body (id),
-	engine_id int references body (id),
-	transmission_id int references body (id)
+	engine_id int references engine (id),
+	transmission_id int references transmission (id)
 );
 
 INSERT INTO body (name) VALUES ('body1');
