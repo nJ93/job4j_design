@@ -23,6 +23,7 @@ INSERT INTO employees (name, department_id) VALUES ('Kolya', 3);
 INSERT INTO employees (name, department_id) VALUES ('Olya', 4);
 INSERT INTO employees (name, department_id) VALUES ('Anya', 5);
 INSERT INTO employees (name, department_id) VALUES ('Sveta', 5);
+INSERT INTO employees (name, department_id) VALUES ('Lida', NULL);
 
 /*2. Выполнить запросы с left, rigth, full, cross соединениями*/
 SELECT
@@ -30,27 +31,27 @@ SELECT
 	, dep.name AS dep_name
 FROM employees emp
 	LEFT JOIN departments dep
-		ON emp.department_id = dep.id
+		ON emp.department_id = dep.id;
 		
 SELECT
 	  emp.name AS emp_name
 	, dep.name AS dep_name
 FROM employees emp
 	RIGHT JOIN departments dep
-		ON emp.department_id = dep.id
+		ON emp.department_id = dep.id;
 		
 SELECT
 	  emp.name AS emp_name
 	, dep.name AS dep_name
 FROM employees emp
 	FULL JOIN departments dep
-		ON emp.department_id = dep.id
+		ON emp.department_id = dep.id;
 		
 SELECT
 	  emp.name AS emp_name
 	, dep.name AS dep_name
 FROM employees emp
-	CROSS JOIN departments dep
+	CROSS JOIN departments dep;
 	
 /*3. Используя left join найти департаменты, у которых нет работников*/
 SELECT DISTINCT
@@ -58,7 +59,7 @@ SELECT DISTINCT
 FROM departments dep
 	LEFT JOIN employees emp
 		ON emp.department_id = dep.id
-WHERE emp.name IS NULL
+WHERE emp.name IS NULL;
 
 /*4. Используя left и right join написать запросы, которые давали бы одинаковый результат (порядок вывода колонок в эти запросах также должен быть идентичный). */
 SELECT
@@ -67,6 +68,7 @@ SELECT
 FROM employees emp
 	LEFT JOIN departments dep
 		ON emp.department_id = dep.id
+WHERE dep.name IS NOT NULL;
 		
 SELECT
 	  emp.name AS emp_name
@@ -74,7 +76,7 @@ SELECT
 FROM employees emp
 	RIGHT JOIN departments dep
 		ON emp.department_id = dep.id
-WHERE emp.name IS NOT NULL
+WHERE emp.name IS NOT NULL;
 
 /*5. Создать таблицу teens с атрибутами name, gender и заполнить ее. Используя cross join составить все возможные разнополые пары*/
 CREATE TABLE teens (
@@ -97,7 +99,7 @@ SELECT
 FROM teens t
 CROSS JOIN teens tt
 WHERE t.gender <> tt.gender
-AND tt.gender <> 'F'
+AND tt.gender <> 'F';
 
 
 
