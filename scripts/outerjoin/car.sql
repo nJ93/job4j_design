@@ -59,7 +59,7 @@ FROM car c
 	LEFT JOIN engine e
 		ON e.id = c.engine_id
 	LEFT JOIN transmission t
-		ON t.id = c.transmission_id
+		ON t.id = c.transmission_id;
 		
 /*2) Вывести отдельно детали (1 деталь - 1 запрос), которые не используются НИ в одной машине, кузова, двигатели, коробки передач.*/
 SELECT 
@@ -67,18 +67,18 @@ SELECT
 FROM car c
 	RIGHT JOIN body b
 		ON b.id = c.body_id
-WHERE c.id is null
+WHERE c.id is null;
 
 SELECT 
 	 e.name AS engine_name
 FROM car c
 	RIGHT JOIN engine e
-		ON e.id = c.body_id
-WHERE c.id is null
+		ON e.id = c.engine_id
+WHERE c.id is null;
 
 SELECT 
 	 t.name AS transmission_name
 FROM car c
 	RIGHT JOIN transmission t
-		ON t.id = c.body_id
-WHERE c.id is null
+		ON t.id = c.transmission_id
+WHERE c.id is null;
