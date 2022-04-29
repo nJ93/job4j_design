@@ -1,7 +1,6 @@
 package ru.job4j.jdbc;
 
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.Properties;
 import java.util.StringJoiner;
@@ -32,10 +31,9 @@ public class TableEditor implements AutoCloseable {
 
   public void createTable(String tableName) {
     executeStatement(String.format(
-            "CREATE TABLE IF NOT EXISTS %s (%s, %s);",
+            "CREATE TABLE IF NOT EXISTS %s (%s);",
             tableName,
-            "id SERIAL PRIMARY KEY",
-            "name text"
+            "id SERIAL PRIMARY KEY"
     ));
   }
 
@@ -86,10 +84,9 @@ public class TableEditor implements AutoCloseable {
     StringJoiner buffer = new StringJoiner(rowSeparator, rowSeparator, rowSeparator);
     buffer.add(header);
     try (Statement statement = connection.createStatement()) {
-      try {
-        ResultSet selection = statement.executeQuery(String.format(
-                "select * from %s limit 1", tableName
-        ));
+      try (ResultSet selection = statement.executeQuery(String.format(
+              "select * from %s limit 1", tableName
+      ))) {
         ResultSetMetaData metaData = selection.getMetaData();
         for (int i = 1; i <= metaData.getColumnCount(); i++) {
           buffer.add(String.format("%-15s|%-15s%n",
@@ -114,29 +111,31 @@ public class TableEditor implements AutoCloseable {
   }
 
   public static void main(String[] args) {
-    try {
+    try (InputStream in = TableEditor.class.getClassLoader().getResourceAsStream("app.properties")) {
       Properties properties = new Properties();
-      properties.load(new FileInputStream("app.properties"));
-      TableEditor tableEditor = new TableEditor(properties);
-      String tableName = "jdbc_test";
-      tableEditor.initConnection();
+      properties.load(in);
+      try (TableEditor tableEditor = new TableEditor(properties)) {
+        String tableName = "jdbc_test";
+        tableEditor.initConnection();
 
-      tableEditor.createTable(tableName);
-      System.out.println(tableEditor.getTableScheme(tableName));
+        tableEditor.createTable(tableName);
+        System.out.println(tableEditor.getTableScheme(tableName));
 
-      tableEditor.addColumn(tableName, "test", "text");
-      System.out.println(tableEditor.getTableScheme(tableName));
+        tableEditor.addColumn(tableName, "test", "text");
+        System.out.println(tableEditor.getTableScheme(tableName));
 
-      tableEditor.dropColumn(tableName, "test");
-      System.out.println(tableEditor.getTableScheme(tableName));
+        tableEditor.dropColumn(tableName, "test");
+        System.out.println(tableEditor.getTableScheme(tableName));
 
-      tableEditor.renameColumn(tableName, "name", "car");
-      System.out.println(tableEditor.getTableScheme(tableName));
+        tableEditor.addColumn(tableName, "test", "text");
+        System.out.println(tableEditor.getTableScheme(tableName));
 
-      tableEditor.dropTable("jdbc_test");
-      System.out.println(tableEditor.getTableScheme(tableName));
+        tableEditor.renameColumn(tableName, "test", "test_two");
+        System.out.println(tableEditor.getTableScheme(tableName));
 
-      tableEditor.close();
+        tableEditor.dropTable("jdbc_test");
+        System.out.println(tableEditor.getTableScheme(tableName));
+      }
     } catch (Exception e) {
       e.printStackTrace();
     }
