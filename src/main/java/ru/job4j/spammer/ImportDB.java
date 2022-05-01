@@ -1,9 +1,6 @@
 package ru.job4j.spammer;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -22,11 +19,19 @@ public class ImportDB {
     this.dump = dump;
   }
 
-  public List<User> load() throws IOException {
+  public List<User> load() {
     List<User> users = new ArrayList<>();
     try (BufferedReader rd = new BufferedReader(new FileReader(dump))) {
       rd.lines()
+              .peek(line -> {
+                String[] lineSplit = line.split(";");
+                if (lineSplit.length < 2 || "".equals(lineSplit[0]) || "".equals(lineSplit[1])) {
+                  throw new IllegalArgumentException("Wrong file content at line - " + line);
+                }
+              })
               .forEach(line -> users.add(new User(line.substring(0, line.indexOf(";")), line.substring(line.indexOf(";") + 1, line.length() - 1))));
+    } catch (IOException e) {
+      e.printStackTrace();
     }
     return users;
   }
