@@ -1,0 +1,195 @@
+Использовался проект job4j_tracker. Добавление объектов Item в цикле/
+jdk16 x64
+
+1. Используя разные ключи запуска виртуальной машины установить различные виды сборщика мусора.
+
+a) Ключи - -Xmx20M -XX:+UseSerialGC -Xlog:gc*
+Цикл добавления 10000 объектов Item
+
+[0.007s][info][gc] Using Serial
+[0.008s][info][gc,init] Version: 16.0.1+9-24 (release)
+[0.008s][info][gc,init] CPUs: 12 total, 12 available
+[0.008s][info][gc,init] Memory: 16317M
+[0.008s][info][gc,init] Large Page Support: Disabled
+[0.008s][info][gc,init] NUMA Support: Disabled
+[0.008s][info][gc,init] Compressed Oops: Enabled (32-bit)
+[0.008s][info][gc,init] Heap Min Capacity: 8M
+[0.008s][info][gc,init] Heap Initial Capacity: 20M
+[0.008s][info][gc,init] Heap Max Capacity: 20M
+[0.008s][info][gc,init] Pre-touch: Disabled
+[0.008s][info][gc,metaspace] CDS archive(s) mapped at: [0x0000000800000000-0x0000000800bb0000-0x0000000800bb0000), size 12255232, SharedBaseAddress: 0x0000000800000000, ArchiveRelocationMode: 0.
+[0.008s][info][gc,metaspace] Compressed class space mapped at: 0x0000000800c00000-0x0000000840c00000, reserved size: 1073741824
+[0.008s][info][gc,metaspace] Narrow klass base: 0x0000000800000000, Narrow klass shift: 3, Narrow klass range: 0x100000000
+[0.106s][info][gc,start    ] GC(0) Pause Young (Allocation Failure)
+[0.110s][info][gc,heap     ] GC(0) DefNew: 5504K(6144K)->640K(6144K) Eden: 5504K(5504K)->0K(5504K) From: 0K(640K)->640K(640K)
+[0.110s][info][gc,heap     ] GC(0) Tenured: 0K(13696K)->1456K(13696K)
+[0.110s][info][gc,metaspace] GC(0) Metaspace: 937K(1152K)->937K(1152K) NonClass: 858K(960K)->858K(960K) Class: 78K(192K)->78K(192K)
+[0.110s][info][gc          ] GC(0) Pause Young (Allocation Failure) 5M->2M(19M) 3.857ms
+[0.110s][info][gc,cpu      ] GC(0) User=0.00s Sys=0.00s Real=0.00s
+[0.112s][info][gc,heap,exit] Heap
+[0.112s][info][gc,heap,exit]  def new generation   total 6144K, used 1575K [0x00000000fec00000, 0x00000000ff2a0000, 0x00000000ff2a0000)
+[0.112s][info][gc,heap,exit]   eden space 5504K,  16% used [0x00000000fec00000, 0x00000000fece9d70, 0x00000000ff160000)
+[0.112s][info][gc,heap,exit]   from space 640K, 100% used [0x00000000ff200000, 0x00000000ff2a0000, 0x00000000ff2a0000)
+[0.112s][info][gc,heap,exit]   to   space 640K,   0% used [0x00000000ff160000, 0x00000000ff160000, 0x00000000ff200000)
+[0.112s][info][gc,heap,exit]  tenured generation   total 13696K, used 1456K [0x00000000ff2a0000, 0x0000000100000000, 0x0000000100000000)
+[0.112s][info][gc,heap,exit]    the space 13696K,  10% used [0x00000000ff2a0000, 0x00000000ff40c050, 0x00000000ff40c200, 0x0000000100000000)
+[0.112s][info][gc,heap,exit]  Metaspace       used 939K, committed 1152K, reserved 1056768K
+[0.112s][info][gc,heap,exit]   class space    used 78K, committed 192K, reserved 1048576K
+
+b) Ключи - -Xmx20M -XX:+UseParallelGC -Xlog:gc*
+Цикл добавления 10000 объектов Item
+
+[0.007s][info][gc] Using Parallel
+[0.008s][info][gc,init] Version: 16.0.1+9-24 (release)
+[0.008s][info][gc,init] CPUs: 12 total, 12 available
+[0.008s][info][gc,init] Memory: 16317M
+[0.008s][info][gc,init] Large Page Support: Disabled
+[0.008s][info][gc,init] NUMA Support: Disabled
+[0.008s][info][gc,init] Compressed Oops: Enabled (32-bit)
+[0.008s][info][gc,init] Alignments: Space 512K, Generation 512K, Heap 2M
+[0.008s][info][gc,init] Heap Min Capacity: 8M
+[0.008s][info][gc,init] Heap Initial Capacity: 20M
+[0.008s][info][gc,init] Heap Max Capacity: 20M
+[0.008s][info][gc,init] Pre-touch: Disabled
+[0.008s][info][gc,init] Parallel Workers: 10
+[0.009s][info][gc,metaspace] CDS archive(s) mapped at: [0x0000000800000000-0x0000000800bb0000-0x0000000800bb0000), size 12255232, SharedBaseAddress: 0x0000000800000000, ArchiveRelocationMode: 0.
+[0.009s][info][gc,metaspace] Compressed class space mapped at: 0x0000000800c00000-0x0000000840c00000, reserved size: 1073741824
+[0.009s][info][gc,metaspace] Narrow klass base: 0x0000000800000000, Narrow klass shift: 3, Narrow klass range: 0x100000000
+[0.115s][info][gc,start    ] GC(0) Pause Young (Allocation Failure)
+[0.118s][info][gc,heap     ] GC(0) PSYoungGen: 5632K(6144K)->496K(6144K) Eden: 5632K(5632K)->0K(5632K) From: 0K(512K)->496K(512K)
+[0.118s][info][gc,heap     ] GC(0) ParOldGen: 0K(13824K)->1653K(13824K)
+[0.118s][info][gc,metaspace] GC(0) Metaspace: 937K(1152K)->937K(1152K) NonClass: 859K(960K)->859K(960K) Class: 78K(192K)->78K(192K)
+[0.118s][info][gc          ] GC(0) Pause Young (Allocation Failure) 5M->2M(19M) 3.094ms
+[0.118s][info][gc,cpu      ] GC(0) User=0.00s Sys=0.00s Real=0.00s
+[0.119s][info][gc,heap,exit] Heap
+[0.119s][info][gc,heap,exit]  PSYoungGen      total 6144K, used 1236K [0x00000000ff980000, 0x0000000100000000, 0x0000000100000000)
+[0.119s][info][gc,heap,exit]   eden space 5632K, 13% used [0x00000000ff980000,0x00000000ffa39088,0x00000000fff00000)
+[0.119s][info][gc,heap,exit]   from space 512K, 96% used [0x00000000fff00000,0x00000000fff7c010,0x00000000fff80000)
+[0.119s][info][gc,heap,exit]   to   space 512K, 0% used [0x00000000fff80000,0x00000000fff80000,0x0000000100000000)
+[0.119s][info][gc,heap,exit]  ParOldGen       total 13824K, used 1653K [0x00000000fec00000, 0x00000000ff980000, 0x00000000ff980000)
+[0.119s][info][gc,heap,exit]   object space 13824K, 11% used [0x00000000fec00000,0x00000000fed9d410,0x00000000ff980000)
+[0.119s][info][gc,heap,exit]  Metaspace       used 939K, committed 1152K, reserved 1056768K
+[0.119s][info][gc,heap,exit]   class space    used 78K, committed 192K, reserved 1048576K
+
+
+c) Ключи - -Xmx20M -XX:+UseG1GC -Xlog:gc* 
+Цикл добавления 20000 объектов Item
+
+[0.007s][info][gc] Using G1
+[0.008s][info][gc,init] Version: 16.0.1+9-24 (release)
+[0.008s][info][gc,init] CPUs: 12 total, 12 available
+[0.008s][info][gc,init] Memory: 16317M
+[0.008s][info][gc,init] Large Page Support: Disabled
+[0.008s][info][gc,init] NUMA Support: Disabled
+[0.008s][info][gc,init] Compressed Oops: Enabled (32-bit)
+[0.008s][info][gc,init] Heap Region Size: 1M
+[0.008s][info][gc,init] Heap Min Capacity: 8M
+[0.008s][info][gc,init] Heap Initial Capacity: 20M
+[0.008s][info][gc,init] Heap Max Capacity: 20M
+[0.008s][info][gc,init] Pre-touch: Disabled
+[0.008s][info][gc,init] Parallel Workers: 10
+[0.008s][info][gc,init] Concurrent Workers: 3
+[0.008s][info][gc,init] Concurrent Refinement Workers: 10
+[0.008s][info][gc,init] Periodic GC: Disabled
+[0.009s][info][gc,metaspace] CDS archive(s) mapped at: [0x0000000800000000-0x0000000800bb0000-0x0000000800bb0000), size 12255232, SharedBaseAddress: 0x0000000800000000, ArchiveRelocationMode: 0.
+[0.009s][info][gc,metaspace] Compressed class space mapped at: 0x0000000800c00000-0x0000000840c00000, reserved size: 1073741824
+[0.009s][info][gc,metaspace] Narrow klass base: 0x0000000800000000, Narrow klass shift: 3, Narrow klass range: 0x100000000
+[0.113s][info][gc,start    ] GC(0) Pause Young (Normal) (G1 Evacuation Pause)
+[0.113s][info][gc,task     ] GC(0) Using 2 workers of 10 for evacuation
+[0.117s][info][gc,phases   ] GC(0)   Pre Evacuate Collection Set: 0.0ms
+[0.117s][info][gc,phases   ] GC(0)   Merge Heap Roots: 0.0ms
+[0.117s][info][gc,phases   ] GC(0)   Evacuate Collection Set: 3.5ms
+[0.117s][info][gc,phases   ] GC(0)   Post Evacuate Collection Set: 0.3ms
+[0.117s][info][gc,phases   ] GC(0)   Other: 0.2ms
+[0.117s][info][gc,heap     ] GC(0) Eden regions: 9->0(5)
+[0.117s][info][gc,heap     ] GC(0) Survivor regions: 0->2(2)
+[0.117s][info][gc,heap     ] GC(0) Old regions: 0->1
+[0.117s][info][gc,heap     ] GC(0) Archive regions: 0->0
+[0.117s][info][gc,heap     ] GC(0) Humongous regions: 0->0
+[0.117s][info][gc,metaspace] GC(0) Metaspace: 936K(1088K)->936K(1088K) NonClass: 858K(896K)->858K(896K) Class: 78K(192K)->78K(192K)
+[0.117s][info][gc          ] GC(0) Pause Young (Normal) (G1 Evacuation Pause) 9M->2M(20M) 4.128ms
+[0.117s][info][gc,cpu      ] GC(0) User=0.03s Sys=0.00s Real=0.00s
+[0.119s][info][gc,heap,exit] Heap
+[0.119s][info][gc,heap,exit]  garbage-first heap   total 20480K, used 4056K [0x00000000fec00000, 0x0000000100000000)
+[0.119s][info][gc,heap,exit]   region size 1024K, 3 young (3072K), 2 survivors (2048K)
+[0.119s][info][gc,heap,exit]  Metaspace       used 938K, committed 1152K, reserved 1056768K
+[0.119s][info][gc,heap,exit]   class space    used 78K, committed 192K, reserved 1048576K
+
+
+d) Ключи - -Xmx20M -XX:+UseZGC -Xlog:gc* 
+Цикл добавления 50000 объектов Item
+
+[0.008s][info][gc,init] Initializing The Z Garbage Collector
+[0.008s][info][gc,init] Version: 16.0.1+9-24 (release)
+[0.008s][info][gc,init] NUMA Support: Disabled
+[0.008s][info][gc,init] CPUs: 12 total, 12 available
+[0.008s][info][gc,init] Memory: 16317M
+[0.008s][info][gc,init] Large Page Support: Disabled
+[0.008s][info][gc,init] Workers: 1 parallel, 1 concurrent
+[0.008s][info][gc,init] Address Space Type: Contiguous/Unrestricted/Complete
+[0.008s][info][gc,init] Address Space Size: 320M x 3 = 960M
+[0.008s][info][gc,init] Min Capacity: 8M
+[0.008s][info][gc,init] Initial Capacity: 20M
+[0.008s][info][gc,init] Max Capacity: 20M
+[0.008s][info][gc,init] Medium Page Size: N/A
+[0.008s][info][gc,init] Pre-touch: Disabled
+[0.008s][info][gc,init] Uncommit: Enabled
+[0.008s][info][gc,init] Uncommit Delay: 300s
+[0.018s][info][gc,init] Runtime Workers: 1 parallel
+[0.018s][info][gc     ] Using The Z Garbage Collector
+[0.019s][info][gc,metaspace] CDS archive(s) mapped at: [0x0000000800000000-0x0000000800bb0000-0x0000000800bb0000), size 12255232, SharedBaseAddress: 0x0000000800000000, ArchiveRelocationMode: 0.
+[0.019s][info][gc,metaspace] Compressed class space mapped at: 0x0000000800c00000-0x0000000840c00000, reserved size: 1073741824
+[0.019s][info][gc,metaspace] Narrow klass base: 0x0000000800000000, Narrow klass shift: 3, Narrow klass range: 0x100000000
+[0.136s][info][gc,start    ] GC(0) Garbage Collection (Allocation Stall)
+[0.136s][info][gc,ref      ] GC(0) Clearing All SoftReferences
+[0.136s][info][gc,phases   ] GC(0) Pause Mark Start 0.035ms
+[0.155s][info][gc,phases   ] GC(0) Concurrent Mark 19.017ms
+[0.155s][info][gc,phases   ] GC(0) Pause Mark End 0.020ms
+[0.156s][info][gc,phases   ] GC(0) Concurrent Process Non-Strong References 0.887ms
+[0.156s][info][gc,phases   ] GC(0) Concurrent Reset Relocation Set 0.000ms
+[0.163s][info][gc,phases   ] GC(0) Concurrent Select Relocation Set 7.006ms
+[0.163s][info][gc,phases   ] GC(0) Pause Relocate Start 0.013ms
+[0.171s][info][gc          ] Relocation Stall (main) 6.062ms
+[0.171s][info][gc,phases   ] GC(0) Concurrent Relocate 7.646ms
+[0.171s][info][gc,load     ] GC(0) Load: 0.00/0.00/0.00
+[0.171s][info][gc          ] Allocation Stall (main) 35.044ms
+[0.171s][info][gc,mmu      ] GC(0) MMU: 2ms/98.3%, 5ms/99.3%, 10ms/99.7%, 20ms/99.7%, 50ms/99.9%, 100ms/99.9%
+[0.171s][info][gc,marking  ] GC(0) Mark: 1 stripe(s), 2 proactive flush(es), 1 terminate flush(es), 0 completion(s), 0 continuation(s) 
+[0.171s][info][gc,nmethod  ] GC(0) NMethods: 340 registered, 0 unregistered
+[0.171s][info][gc,metaspace] GC(0) Metaspace: 0M used, 1M committed, 1032M reserved
+[0.171s][info][gc,ref      ] GC(0) Soft: 62 encountered, 55 discovered, 37 enqueued
+[0.171s][info][gc,ref      ] GC(0) Weak: 138 encountered, 128 discovered, 26 enqueued
+[0.171s][info][gc,ref      ] GC(0) Final: 0 encountered, 0 discovered, 0 enqueued
+[0.171s][info][gc,ref      ] GC(0) Phantom: 38 encountered, 33 discovered, 19 enqueued
+[0.171s][info][gc,reloc    ] GC(0) Small Pages: 9 / 18M, Empty: 0M, Relocated: 5M, In-Place: 1
+[0.171s][info][gc,reloc    ] GC(0) Large Pages: 1 / 2M, Empty: 0M, Relocated: 0M, In-Place: 0
+[0.171s][info][gc,reloc    ] GC(0) Forwarding Usage: 4M
+[0.171s][info][gc,heap     ] GC(0) Min Capacity: 8M(40%)
+[0.171s][info][gc,heap     ] GC(0) Max Capacity: 20M(100%)
+[0.171s][info][gc,heap     ] GC(0) Soft Max Capacity: 20M(100%)
+[0.171s][info][gc,heap     ] GC(0)                Mark Start          Mark End        Relocate Start      Relocate End           High               Low         
+[0.171s][info][gc,heap     ] GC(0)  Capacity:       20M (100%)         20M (100%)         20M (100%)         20M (100%)         20M (100%)         20M (100%)   
+[0.171s][info][gc,heap     ] GC(0)      Free:        0M (0%)            0M (0%)            0M (0%)           10M (50%)          10M (50%)           0M (0%)     
+[0.171s][info][gc,heap     ] GC(0)      Used:       20M (100%)         20M (100%)         20M (100%)         10M (50%)          20M (100%)         10M (50%)    
+[0.171s][info][gc,heap     ] GC(0)      Live:         -                 7M (35%)           7M (35%)           7M (35%)            -                  -          
+[0.171s][info][gc,heap     ] GC(0) Allocated:         -                 0M (0%)            0M (0%)            2M (10%)            -                  -          
+[0.171s][info][gc,heap     ] GC(0)   Garbage:         -                12M (65%)          12M (65%)           0M (5%)             -                  -          
+[0.171s][info][gc,heap     ] GC(0) Reclaimed:         -                  -                 0M (0%)           12M (60%)            -                  -          
+[0.171s][info][gc          ] GC(0) Garbage Collection (Allocation Stall) 20M(100%)->10M(50%)
+[0.179s][info][gc,heap,exit] Heap
+[0.179s][info][gc,heap,exit]  ZHeap           used 14M, capacity 20M, max capacity 20M
+[0.179s][info][gc,heap,exit]  Metaspace       used 936K, committed 1152K, reserved 1056768K
+[0.179s][info][gc,heap,exit]   class space    used 77K, committed 192K, reserved 1048576K
+
+2. Оценить поведение срабатывания различных типов сборщиков мусора для программы job4j_tracker 
+
+Serial - Pause Young (Allocation Failure) 5M->2M(19M) 3.857ms
+Parallel - Pause Young (Allocation Failure) 5M->2M(19M) 3.094ms
+G1 - Pause Young (Normal) (G1 Evacuation Pause) 9M->2M(20M) 4.128ms
+Z - Concurrent Relocate 7.646ms
+
+3. Как вы считаете какой из сборщиков мусора подойдет наиболее оптимально для приложения job4j_tracker?
+ParallelGC
+
+4. Какой тип сборщика будет оптимален для серверного приложения?
+В зависимости от специфики приложения CMS, G1, Z
