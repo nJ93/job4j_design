@@ -2,7 +2,6 @@ package ru.job4j.gc.ref;
 
 import java.lang.ref.PhantomReference;
 import java.lang.ref.ReferenceQueue;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -37,7 +36,7 @@ public class PhantomDemo {
     }
 
     public void utilizeResource() {
-      for (ListIterator<MyPhantom> i = phantoms.listIterator(); i.hasNext();) {
+      for (ListIterator<MyPhantom> i = phantoms.listIterator(); i.hasNext(); ) {
         MyPhantom current = i.next();
         if (current != null && current.isEnqueued()) {
           System.out.println("Utilized " + current.get());
