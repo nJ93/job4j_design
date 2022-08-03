@@ -73,7 +73,7 @@ public class Emulator {
             enter = reader.readLine();
             result = cache.get(enter);
             if (result != null) {
-              System.out.println(result + System.lineSeparator());
+              System.out.println(result);
             }
             System.out.println(SHOW_ENTER_PHRASES);
             continue;
